@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AJAX вместе с Flask</title>
+    <script type=text/javascript src="{{ url_for('static', filename='js/jquery-2.2.2.min.js') }}"></script>
+</head>
+<body>
+    <script>
+        function get_len() {
+            $.ajax({
+                type: "POST",
+                url: "/get_len",
+                data: $('form').serialize(),
+                type: 'POST',
+                success: function(response) {
+                    var json = jQuery.parseJSON(response)
+                    $('#len').html(json.len)
+                    console.log(response);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+    </script>
+    <form action="/get_len" method="post" name="form">
+        <label for="name">Введите текст:</label>
+        <input id="name" name="name" type="text">
+        <input type="button" value="Отправить" onclick="get_len();">
+    </form>
+    <div id="len"></div>
+</body>
+</html>
